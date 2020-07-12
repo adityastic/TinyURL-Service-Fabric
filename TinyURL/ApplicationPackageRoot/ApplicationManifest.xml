@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="TinyURLType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="CommunicationAPI_ASPNETCORE_ENVIRONMENT" DefaultValue="" />
+    <Parameter Name="CommunicationAPI_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="TinyURLStatefulService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="TinyURLStatefulService_PartitionCount" DefaultValue="1" />
+    <Parameter Name="TinyURLStatefulService_TargetReplicaSetSize" DefaultValue="3" />
+  </Parameters>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="CommunicationAPIPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+    <EnvironmentOverrides CodePackageRef="code">
+      <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[CommunicationAPI_ASPNETCORE_ENVIRONMENT]" />
+    </EnvironmentOverrides>
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="TinyURLStatefulServicePkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <DefaultServices>
+    <Service Name="CommunicationAPI" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="CommunicationAPIType" InstanceCount="[CommunicationAPI_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="TinyURLStatefulService" ServicePackageActivationMode="ExclusiveProcess">
+      <StatefulService ServiceTypeName="TinyURLStatefulServiceType" TargetReplicaSetSize="3" MinReplicaSetSize="3">
+        <UniformInt64Partition PartitionCount="3" LowKey="0" HighKey="2" />
+      </StatefulService>
+    </Service>
+  </DefaultServices>
+</ApplicationManifest>
