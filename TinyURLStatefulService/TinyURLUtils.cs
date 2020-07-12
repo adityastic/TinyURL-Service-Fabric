@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TinyURLStatefulService
 {
-    class TinyURLUtils
+    public class TinyURLUtils
     {
         static readonly char[] CharacterMap = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
