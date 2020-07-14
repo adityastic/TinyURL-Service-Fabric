@@ -22,7 +22,7 @@ namespace CommunicationAPI
         }
 
         // Instance constructor is private to enforce singleton semantics
-        private ServiceEventSource() : base() { }
+        private ServiceEventSource() { }
 
         #region Keywords
         // Event keywords can be used to categorize events. 
@@ -45,22 +45,22 @@ namespace CommunicationAPI
         // For more information see https://msdn.microsoft.com/en-us/library/system.diagnostics.tracing.eventsource.aspx
 
         [NonEvent]
-        public void Message(string message, params object[] args)
+        public void Message(string mes, params object[] args)
         {
             if (this.IsEnabled())
             {
-                string finalMessage = string.Format(message, args);
+                string finalMessage = string.Format(mes, args);
                 Message(finalMessage);
             }
         }
 
         private const int MessageEventId = 1;
         [Event(MessageEventId, Level = EventLevel.Informational, Message = "{0}")]
-        public void Message(string message)
+        public void Message(string mes)
         {
             if (this.IsEnabled())
             {
-                WriteEvent(MessageEventId, message);
+                WriteEvent(MessageEventId, mes);
             }
         }
 

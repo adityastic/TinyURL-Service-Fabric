@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Contracts;
 using Microsoft.ServiceFabric.Data.Collections;
@@ -43,9 +40,13 @@ namespace TinyURLStatefulService
             await tx.CommitAsync();
 
             if (result.HasValue)
+            {
                 return (result.Value + 1);
+            }
             else
+            { 
                 return 1;
+            }
         }
 
         public async Task<string> GetURLFromShortURL(string url)

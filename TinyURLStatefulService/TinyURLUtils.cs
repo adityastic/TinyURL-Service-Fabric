@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TinyURLStatefulService
 {
-    public class TinyURLUtils
+    public static class TinyURLUtils
     {
         static readonly char[] CharacterMap = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
@@ -32,13 +32,19 @@ namespace TinyURLStatefulService
             {
                 if ('a' <= shortURL[i] &&
                         shortURL[i] <= 'z')
+                {
                     id = id * 62 + shortURL[i] - 'a';
+                }
                 if ('A' <= shortURL[i] &&
                         shortURL[i] <= 'Z')
+                {
                     id = id * 62 + shortURL[i] - 'A' + 26;
+                }
                 if ('0' <= shortURL[i] &&
                         shortURL[i] <= '9')
+                {
                     id = id * 62 + shortURL[i] - '0' + 52;
+                }
             }
             return id;
         }
