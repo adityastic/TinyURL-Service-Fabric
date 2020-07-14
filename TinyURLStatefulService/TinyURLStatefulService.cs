@@ -18,7 +18,7 @@ namespace TinyURLStatefulService
             : base(context)
         { }
 
-        public async Task<TinyURLModel> CreateURLForService(string Url)
+        public async Task<string> CreateURLForService(string Url)
         {
             var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<int, string>>("tiny_db");
             
@@ -29,7 +29,7 @@ namespace TinyURLStatefulService
 
             await tx.CommitAsync();
 
-            return new TinyURLModel(TinyURLUtils.IdToShortURL(LatestID.Result));
+            return TinyURLUtils.IdToShortURL(LatestID.Result);
         }
 
         public async Task<int> GetLatestID()

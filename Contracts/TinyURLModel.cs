@@ -9,7 +9,7 @@ namespace Contracts
     public class TinyURLModel
     {
         [DataMember]
-        string ShortUrl { get; set; }
+        public string ShortUrl { get; set; }
 
         public TinyURLModel(string url)
         {

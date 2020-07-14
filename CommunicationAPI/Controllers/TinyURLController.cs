@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Microsoft.ServiceFabric.Services.Client;
 using Contracts;
@@ -14,6 +11,10 @@ namespace CommunicationAPI.Controllers
     [Route("/")]
     public class TinyURLController : ControllerBase
     {
+        public string GetBaseURL() {
+            return $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+        }
+
         [HttpPost]
         [Route("createURL")]
         public async Task<TinyURLModel> AddUrl(
@@ -25,15 +26,14 @@ namespace CommunicationAPI.Controllers
                 new Uri("fabric:/TinyURL/TinyURLStatefulService"),
                 new ServicePartitionKey(partition));
 
-            var shortObj =  await statefulProxy.CreateURLForService(url);
+            var shortObj = await statefulProxy.CreateURLForService(url);
 
-            return shortObj;
+            return new TinyURLModel($"{GetBaseURL()}/{shortObj}");
         }
-
 
         [HttpGet]
         [Route("{shortUrl}")]
-        public async Task<string> HandleUrl(
+        public async Task HandleUrl(
             [FromRoute(Name = "shortUrl")] string url, [FromQuery(Name = "partition")] int partition)
         {
             partition %= 3;
@@ -42,7 +42,7 @@ namespace CommunicationAPI.Controllers
                 new Uri("fabric:/TinyURL/TinyURLStatefulService"),
                 new ServicePartitionKey(partition));
 
-            return await statefulProxy.GetURLFromShortURL(url);
+            this.HttpContext.Response.Redirect((await statefulProxy.GetURLFromShortURL(url)));
         }
     }
 }

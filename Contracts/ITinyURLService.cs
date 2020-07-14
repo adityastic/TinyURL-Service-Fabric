@@ -6,7 +6,7 @@ namespace Contracts
 {
     public interface ITinyURLService : IService
     {
-        Task<TinyURLModel> CreateURLForService(string Url);
-        Task<string> GetURLFromShortURL(string url);
+        Task<string> CreateURLForService(string Url);
+        Task<string> GetURLFromShortURL(string Url);
     }
 }
