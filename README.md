@@ -7,6 +7,13 @@ This is an implimentation of Tiny URL using [Azure Service Fabric](https://azure
 ## Deploy it on your Azure
 [![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
+## API Doc
+
+|   **API**     | **Description**             |    **Returns**              |     **Parameters**         |
+|---------------|-----------------------------|-----------------------------|----------------------------|
+| /createURL    | Create ShortURL for a link  | An object with the shortURL.<br>eg: In JSON :<br> ```{ "shortUrl" : "http://localhost:8471/c" }``` | **Form Parameters**:<br>&nbsp;&nbsp;- **URL** : String (URL that you want to convert)<br>&nbsp;&nbsp;- **partition** : int (partition id to fetch a specific reliable collection)
+| /{shortURL}   | Redirects you to the stored URL  | A Redirect to the stored URL. | **Route/Path Parameter**:<br>&nbsp;&nbsp;- **shortURL** : String (short url returned after /createURL API)<br>**Query Parameter**:<br>&nbsp;&nbsp;- **partition** : int (partition id to fetch a specific reliable collection)
+
 ## Pre-Requisites
 1. [Visual Studio](https://visualstudio.microsoft.com/vs/)
 2. [Service Fabric Development Environment](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started)
