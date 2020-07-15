@@ -1,6 +1,6 @@
 # TinyURL
 
-![.NET CI](https://github.com/adityastic/TinyURL-Service-Fabric/workflows/.NET%20CI/badge.svg) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ed8da28cfb53439e928c4405b37e5a7f)](https://www.codacy.com/manual/adityastic/TinyURL-Service-Fabric?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adityastic/TinyURL-Service-Fabric&amp;utm_campaign=Badge_Grade)
+![.NET CI](https://github.com/adityastic/TinyURL-Service-Fabric/workflows/.NET%20CI/badge.svg) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/cc70c6df1c9048fab1b0b945902ca36c)](https://www.codacy.com/manual/adityastic/TinyURL-Service-Fabric?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adityastic/TinyURL-Service-Fabric&amp;utm_campaign=Badge_Grade)
 
 This is an implimentation of Tiny URL using [Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/)
 
