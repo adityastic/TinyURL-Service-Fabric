@@ -1,15 +1,14 @@
-using Microsoft.ServiceFabric.Services.Runtime;
 using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace CommunicationAPI
 {
     internal static class Program
     {
         /// <summary>
-        /// This is the entry point of the service host process.
+        ///     This is the entry point of the service host process.
         /// </summary>
         private static void Main()
         {
@@ -21,9 +20,10 @@ namespace CommunicationAPI
                 // an instance of the class is created in this host process.
 
                 ServiceRuntime.RegisterServiceAsync("CommunicationAPIType",
-                    context => new CommunicationAPI(context)).GetAwaiter().GetResult();
+                    context => new CommunicationApi(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(CommunicationAPI).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id,
+                    nameof(CommunicationApi));
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

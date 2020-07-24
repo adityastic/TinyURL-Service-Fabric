@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Runtime.Serialization;
 
 namespace Contracts
 {
     [DataContract]
     public class TinyURLModel
     {
-        [DataMember]
-        public string ShortUrl { get; set; }
-
         public TinyURLModel(string url)
         {
-            this.ShortUrl = url;
+            ShortUrl = url;
         }
+
+        [DataMember] public string ShortUrl { get; set; }
     }
 }

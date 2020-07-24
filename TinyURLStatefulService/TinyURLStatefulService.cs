@@ -9,30 +9,42 @@ using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace TinyURLStatefulService
 {
-    internal sealed class TinyURLStatefulService : StatefulService, ITinyURLService
+    internal sealed class TinyUrlStatefulService : StatefulService, ITinyURLService
     {
-        public TinyURLStatefulService(StatefulServiceContext context)
+        public TinyUrlStatefulService(StatefulServiceContext context)
             : base(context)
-        { }
-
-        public async Task<string> CreateURLForService(string Url)
         {
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<int, string>>("tiny_db");
-            
-            using var tx = this.StateManager.CreateTransaction();
-            var LatestID = GetLatestID();
+        }
 
-            await myDictionary.AddOrUpdateAsync(tx, LatestID.Result, Url, (k, v) => v);
+        public async Task<string> CreateURLForService(string url)
+        {
+            var myDictionary = await StateManager.GetOrAddAsync<IReliableDictionary<int, string>>("tiny_db");
+
+            using var tx = StateManager.CreateTransaction();
+            var latestId = GetLatestId();
+
+            await myDictionary.AddOrUpdateAsync(tx, latestId.Result, url, (k, v) => v);
 
             await tx.CommitAsync();
 
-            return TinyURLUtils.IdToShortURL(LatestID.Result);
+            return TinyURLUtils.IdToShortURL(latestId.Result);
         }
 
-        public async Task<int> GetLatestID()
+        public async Task<string> GetURLFromShortURL(string url)
         {
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, int>>("id_counter");
-            using var tx = this.StateManager.CreateTransaction();
+            var myDictionary = await StateManager.GetOrAddAsync<IReliableDictionary<int, string>>("tiny_db");
+            using var tx = StateManager.CreateTransaction();
+            var result = await myDictionary.TryGetValueAsync(tx, TinyURLUtils.ShortURLtoID(url));
+
+            if (result.HasValue)
+                return result.Value;
+            return "www.facebook.com";
+        }
+
+        private async Task<int> GetLatestId()
+        {
+            var myDictionary = await StateManager.GetOrAddAsync<IReliableDictionary<string, int>>("id_counter");
+            using var tx = StateManager.CreateTransaction();
             var result = await myDictionary.TryGetValueAsync(tx, "Counter");
 
             await myDictionary.AddOrUpdateAsync(tx, "Counter", 1, (key, value) => ++value);
@@ -40,25 +52,8 @@ namespace TinyURLStatefulService
             await tx.CommitAsync();
 
             if (result.HasValue)
-            {
-                return (result.Value + 1);
-            }
-            else
-            { 
-                return 1;
-            }
-        }
-
-        public async Task<string> GetURLFromShortURL(string url)
-        {
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<int, string>>("tiny_db");
-            using var tx = this.StateManager.CreateTransaction();
-            var result = await myDictionary.TryGetValueAsync(tx, TinyURLUtils.ShortURLtoID(url));
-
-            if (result.HasValue)
-                return result.Value;
-            else
-                return "www.facebook.com";
+                return result.Value + 1;
+            return 1;
         }
 
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()

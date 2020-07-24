@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Runtime.Serialization;
 
 namespace Contracts
 {
     [DataContract]
-    public class TinyURL
+    public class TinyUrl
     {
-        [DataMember]
-        int Id { get; set; }
-        [DataMember]
-        string Name { get; set; }
+        [DataMember] private int Id { get; set; }
+        [DataMember] private string Name { get; set; }
     }
 }

@@ -1,6 +1,5 @@
-﻿using Microsoft.ServiceFabric.Services.Remoting;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Services.Remoting;
 
 namespace Contracts
 {
