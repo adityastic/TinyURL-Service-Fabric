@@ -1,0 +1,23 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 99
+  ignore:
+  - dependency-name: Microsoft.ServiceFabric.Services.Remoting
+    versions:
+    - 4.2.452
+    - 4.2.457
+    - 4.2.477
+  - dependency-name: Microsoft.ServiceFabric.AspNetCore.Kestrel
+    versions:
+    - 4.2.452
+    - 4.2.457
+    - 4.2.477
+  - dependency-name: Microsoft.ServiceFabric.Services
+    versions:
+    - 4.2.452
+    - 4.2.457
+    - 4.2.477
