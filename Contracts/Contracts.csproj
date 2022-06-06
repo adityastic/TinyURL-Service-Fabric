@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="5.1.316" />
+    <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="6.0.1028" />
   </ItemGroup>
 
 </Project>
